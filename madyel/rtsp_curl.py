@@ -113,14 +113,6 @@ class Rtsp_Curl(object):
         self.filename_sdp.write(sdp_filename.decode("utf-8"))
         self.filename_sdp.close()
 
-
-
-# url_uri=uri.URI('rtsp://10.10.100.180/test.mp4&t=unicast&p=udp&ve=H264&w=1920&h=1080&ae=PCMU&sr=8000')
-
-# c1.setopt(pycurl.PORT, 554)
-# c1.setopt(pycurl.WRITEFUNCTION, get_sdp_filename)
-# c1.setopt(pycurl.HEADERFUNCTION, get_sdp_filename)
-
 if __name__ == '__main__':
     url = 'rtsp://10.10.100.180:554/test.mp4&t=unicast&p=udp&ve=H264&w=1920&h=1080&ae=PCMU&sr=8000'
     rtsp=Rtsp_Curl(url,'admin:admin')
