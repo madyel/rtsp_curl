@@ -7,7 +7,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(name='rtsp_curl',
-      version='0.3',
+      version='0.5',
       description='Convert rtsp.c to rtsp_curl.py',
       url='https://github.com/madyel/rtsp_curl',
       author='MaDyEl',

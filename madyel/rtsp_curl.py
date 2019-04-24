@@ -3,14 +3,15 @@ from scanf import scanf
 import random
 import os.path
 import time
+from pathlib import Path
 
 DEBUG = True
 TRANSPORT_TCP_OR_UDP = True
 
-PORT_F = random.randint(49152, 65535)
+PORT_F = random.randint(49152, 65534)
 PORT_T = PORT_F + 1
 
-FILENAME_SDP="../file.sdp"
+FILENAME_SDP=Path(__file__).resolve().parent+"/file_tmp.sdp"
 
 USER_AGENT='MadYel RTSP'
 
