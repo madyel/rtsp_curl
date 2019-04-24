@@ -1,5 +1,4 @@
 import pycurl
-import uri
 from scanf import scanf
 import random
 import os.path
@@ -11,9 +10,9 @@ TRANSPORT_TCP_OR_UDP = True
 PORT_F = random.randint(49152, 65535)
 PORT_T = PORT_F + 1
 
-FILENAME_SDP="../video1.sdp"
-URI_PLAY="../play.sdp"
-USER_AGENT='Onvif Skull 1.0'
+FILENAME_SDP="../file.sdp"
+
+USER_AGENT='MadYel RTSP'
 
 if TRANSPORT_TCP_OR_UDP:
     # UDP #
@@ -53,8 +52,6 @@ class Rtsp_Curl(object):
 
 
     def rtsp_describe(self):
-        # c1.setopt(pycurl.TIMEVALUE, 1577833200)
-        # c1.setopt(pycurl.TIMECONDITION, pycurl.TIMECONDITION_IFMODSINCE)
         self.filename_sdp = file_sdp(FILENAME_SDP, "w+").get_file_sdp()
         self.curl.setopt(pycurl.WRITEFUNCTION, self.get_sdp_filename)
         self.curl.setopt(pycurl.OPT_RTSP_REQUEST, pycurl.RTSPREQ_DESCRIBE)
@@ -73,13 +70,9 @@ class Rtsp_Curl(object):
         self.curl.setopt(pycurl.OPT_RTSP_TRANSPORT, self.transport)
         self.curl.perform()
 
-    def get_sdp_filenameX(self, buffer):
-        self.f2.write(buffer.decode("utf-8"))
 
     def rtsp_play(self, url):
         self.curl.setopt(pycurl.OPT_RTSP_STREAM_URI, url)
-        self.f2=open("../play33.sdp", 'w+')
-        self.curl.setopt(pycurl.HEADERFUNCTION, self.get_sdp_filenameX)
         self.curl.setopt(pycurl.RANGE, 'npt=0.000-')
         self.curl.setopt(pycurl.OPT_RTSP_REQUEST, pycurl.RTSPREQ_PLAY)
         self.curl.perform()
@@ -115,8 +108,8 @@ class Rtsp_Curl(object):
 
 if __name__ == '__main__':
     url = 'rtsp://10.10.100.180:554/test.mp4&t=unicast&p=udp&ve=H264&w=1920&h=1080&ae=PCMU&sr=8000'
-    rtsp=Rtsp_Curl(url,'admin:admin')
-    rtsp.init()
+    rtsp=Rtsp_Curl()
+    rtsp.init(url,'admin:admin')
     rtsp.auth()
     rtsp.rtsp_describe()
     control = rtsp.get_media_control_attribute()
