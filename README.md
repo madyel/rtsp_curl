@@ -1,4 +1,4 @@
-#### Convert rtsp.c to rtsp_curl.py
+#### Convert rtsp.c to rtsp_curl.py ![](https://travis-ci.org/madyel/rtsp_curl.svg?branch=master)
 
 A basic RTSP transfer [rtsp.c][1]
 
