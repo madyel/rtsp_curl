@@ -1,4 +1,5 @@
-#### Convert rtsp.c to rtsp_curl.py ![](https://travis-ci.org/madyel/rtsp_curl.svg?branch=master)
+#### Convert rtsp.c to rtsp_curl.py 
+![](https://travis-ci.org/madyel/rtsp_curl.svg?branch=master) ![](https://img.shields.io/github/license/madyel/rtsp_curl.svg) ![](https://img.shields.io/github/last-commit/madyel/rtsp_curl.svg)
 
 A basic RTSP transfer [rtsp.c][1]
 
