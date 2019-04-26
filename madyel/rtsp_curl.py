@@ -11,7 +11,7 @@ TRANSPORT_TCP_OR_UDP = True
 PORT_F = random.randint(49152, 65534)
 PORT_T = PORT_F + 1
 
-FILENAME_SDP=Path(__file__).resolve().parent+"/file_tmp.sdp"
+FILENAME_SDP=str(Path(__file__).resolve().parent)+"/file_tmp.sdp"
 
 USER_AGENT='MadYel RTSP'
 
@@ -116,4 +116,5 @@ if __name__ == '__main__':
     control = rtsp.get_media_control_attribute()
     rtsp.rtsp_setup(transport, control)
     rtsp.rtsp_play(url)
+    time.sleep(5)
     rtsp.rtsp_curl_close()
