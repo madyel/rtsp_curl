@@ -4,6 +4,7 @@ import random
 import os.path
 import time
 from pathlib import Path
+import subprocess
 
 DEBUG = True
 TRANSPORT_TCP_OR_UDP = True
@@ -21,6 +22,17 @@ if TRANSPORT_TCP_OR_UDP:
 else:
     transport = "RTSP;unicast;client_port={}-{}".format(PORT_F, PORT_T)
 
+class Storage:
+    def __init__(self):
+        self.contents = ''
+        self.line = 0
+
+    def store(self, buf):
+        self.line = self.line + 1
+        self.contents = "%s%i: %s" % (self.contents, self.line, buf.decode())
+
+    def __str__(self):
+        return self.contents
 
 class file_sdp(object):
     def __init__(self, name, type):
@@ -53,10 +65,16 @@ class Rtsp_Curl(object):
 
 
     def rtsp_describe(self):
+        retrieved_body = Storage()
+        retrieved_headers = Storage()
         self.filename_sdp = file_sdp(FILENAME_SDP, "w+").get_file_sdp()
         self.curl.setopt(pycurl.WRITEFUNCTION, self.get_sdp_filename)
         self.curl.setopt(pycurl.OPT_RTSP_REQUEST, pycurl.RTSPREQ_DESCRIBE)
+        #self.curl.setopt(pycurl.WRITEFUNCTION, retrieved_body.store)
+        #self.curl.setopt(pycurl.HEADERFUNCTION, retrieved_headers.store)
         self.curl.perform()
+        #print(retrieved_body)
+        #print(retrieved_headers)
 
 
     def rtsp_options(self):
@@ -64,12 +82,18 @@ class Rtsp_Curl(object):
         self.curl.perform()
 
 
-    def rtsp_setup(self, transport, control):
+    def rtsp_setup(self, control):
         uri = self.url + '/%s' % control
+        retrieved_body = Storage()
+        retrieved_headers = Storage()
         self.curl.setopt(pycurl.OPT_RTSP_STREAM_URI, uri)
         self.curl.setopt(pycurl.OPT_RTSP_REQUEST, pycurl.RTSPREQ_SETUP)
         self.curl.setopt(pycurl.OPT_RTSP_TRANSPORT, self.transport)
+        self.curl.setopt(pycurl.WRITEFUNCTION, retrieved_body.store)
+        self.curl.setopt(pycurl.HEADERFUNCTION, retrieved_headers.store)
         self.curl.perform()
+        #print(retrieved_body)
+        #print(retrieved_headers)
 
 
     def rtsp_play(self, url):
@@ -111,10 +135,14 @@ if __name__ == '__main__':
     url = 'rtsp://10.10.100.180:554/test.mp4&t=unicast&p=udp&ve=H264&w=1920&h=1080&ae=PCMU&sr=8000'
     rtsp=Rtsp_Curl()
     rtsp.init(url,'admin:admin')
+    rtsp.rtsp_options()
     rtsp.auth()
     rtsp.rtsp_describe()
     control = rtsp.get_media_control_attribute()
-    rtsp.rtsp_setup(transport, control)
+    rtsp.rtsp_setup(control)
     rtsp.rtsp_play(url)
-    time.sleep(5)
+    print(PORT_F)
+    time.sleep(60)
+    #subprocess.call('ffplay -i ' + FILENAME_SDP)
+    rtsp.rtsp_teardown()
     rtsp.rtsp_curl_close()

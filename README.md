@@ -8,6 +8,8 @@ A basic RTSP transfer [rtsp.c][1]
 Example:
 
 ```
+import time
+from madyel import Rtsp_Curl
 
 stream_uri = 'rtsp://127.0.0.1:554/video.mp4'
 rtsp = Rtsp_Curl()
@@ -15,7 +17,7 @@ rtsp.init(stream_uri, 'username:password')
 rtsp.auth()
 rtsp.rtsp_describe()
 control = rtsp.get_media_control_attribute()
-rtsp.rtsp_setup(transport, control)
+rtsp.rtsp_setup(control)
 rtsp.rtsp_play(stream_uri)
 
 time.sleep(5)
