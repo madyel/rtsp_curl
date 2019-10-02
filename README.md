@@ -33,6 +33,10 @@ rtsp.rtsp_curl_close()
 pip install scanf 
 pip install pycurl
 ```
+<em>for macOS</em>:
+```
+PYCURL_SSL_LIBRARY=openssl LDFLAGS="-L/usr/local/opt/openssl/lib" CPPFLAGS="-I/usr/local/opt/openssl/include" pip install --no-cache-dir pycurl
+```
 
 ```
 /\
