@@ -12,7 +12,7 @@ Example:
 import time
 from madyel import Rtsp_Curl
 
-stream_uri = 'rtsp://127.0.0.1:554/video.mp4'
+stream_uri = 'rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov'
 rtsp = Rtsp_Curl()
 rtsp.init(stream_uri, 'username:password')
 rtsp.auth()
